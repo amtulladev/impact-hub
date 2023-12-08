@@ -1,11 +1,15 @@
+import Link from "next/link";
 import Profile from "./icons/Profile";
 
 export default function Header() {
   return (
     <header className="flex items-center justify-between border-b px-5 md:mx-auto md:max-w-[1200px]">
-      <p className="px-2 py-3 text-2xl font-black text-secondary hover:bg-secondary hover:text-white md:text-4xl">
+      <Link
+        href="/"
+        className="px-2 py-3 text-2xl font-black text-secondary hover:bg-secondary hover:text-white md:text-4xl"
+      >
         ImpactHub
-      </p>
+      </Link>
       {/* <section>
         <a href="#" className="mr-3 hover:font-semibold focus:font-semibold">
           Home
