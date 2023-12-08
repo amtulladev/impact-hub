@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <footer className=" bg-secondary py-6 text-white md:py-8">
-      <section className="px-5 md:mx-auto  md:flex md:max-w-[1200px] md:justify-between md:px-0">
+      <section className="px-5 md:mx-auto  md:flex md:max-w-[1200px] md:justify-between">
         <p className="text-center md:text-left">
           © 2022 ImpactHub All Rights Reserved By ImpactHub
         </p>
