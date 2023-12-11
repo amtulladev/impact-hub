@@ -20,11 +20,13 @@ export default async function handler(
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
 
+    const { _id, username } = user;
+
     if (!passwordMatch) {
       return res.status(401).json({ error: "Invalid password" });
     }
 
-    return res.status(200).json({ message: "Login successful" });
+    return res.status(200).json({ message: "Login successful", _id, username });
   } catch (error) {
     console.error("Error during login:", error);
     return res.status(500).json({ error: "Internal Server Error" });
