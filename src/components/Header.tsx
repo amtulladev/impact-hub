@@ -1,11 +1,13 @@
 import Link from "next/link";
 import Profile from "./icons/Profile";
-import { checkLogin } from "@/atom/user";
+import { checkLogin, user } from "@/atom/user";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 
 export default function Header() {
+  const [userDetails, setUserDetails] = useAtom(user);
+
   const setLogout = useSetAtom(checkLogin);
   return (
     <header className="flex items-center justify-between border-b px-5 md:mx-auto md:max-w-[1200px]">
@@ -28,7 +30,7 @@ export default function Header() {
       </section>
       <Menu as="div" className="relative inline-block text-left">
         <section className="flex items-center">
-          <p className="mr-1 md:mr-3">Name here</p>
+          <p className="mr-1 md:mr-3">{userDetails.username}</p>
           <Menu.Button className="px-3 py-2 hover:bg-gray-50">
             <Profile />
           </Menu.Button>
@@ -49,6 +51,7 @@ export default function Header() {
                 type="submit"
                 onClick={() => {
                   setLogout(false);
+                  setUserDetails({ id: "", username: "" });
                 }}
                 className="block px-4 py-2 text-sm text-gray-900"
               >
