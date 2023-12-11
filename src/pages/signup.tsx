@@ -1,4 +1,5 @@
 import { checkLogin, user } from "@/atom/user";
+import Loader from "@/components/Loader";
 import { useSetAtom } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -19,10 +20,12 @@ export default function Signup() {
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState<Boolean>(true);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
+      setIsLoading(true);
       const response = await fetch("/api/signup", {
         method: "POST",
         headers: {
@@ -44,11 +47,14 @@ export default function Signup() {
           password: "",
         });
         router.push("/");
+        setIsLoading(false);
       } else {
         alert(JSON.stringify(responseMessage.error));
       }
     } catch (error) {
       console.error("Error during post request:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -59,6 +65,10 @@ export default function Signup() {
       [name]: value,
     }));
   };
+
+  if (isLoading === true) {
+    return <Loader />;
+  }
 
   return (
     <section>

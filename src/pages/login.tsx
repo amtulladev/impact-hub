@@ -1,4 +1,5 @@
 import { checkLogin } from "@/atom/user";
+import Loader from "@/components/Loader";
 import { useSetAtom } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -16,10 +17,12 @@ export default function Login() {
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState<Boolean>(true);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
+      setIsLoading(true);
       const response = await fetch("/api/login", {
         method: "POST",
         headers: {
@@ -34,12 +37,15 @@ export default function Login() {
           password: "",
         });
         router.push("/");
+        setIsLoading(false);
       } else {
         const responseMessage = await response.json();
         alert(JSON.stringify(responseMessage.error));
       }
     } catch (error) {
       console.error("Error during post request:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -50,6 +56,11 @@ export default function Login() {
       [name]: value,
     }));
   };
+
+  if (isLoading === true) {
+    return <Loader />;
+  }
+
   return (
     <section>
       <div className="mx-auto flex h-screen flex-col items-center justify-center px-6 py-8 lg:py-0">
