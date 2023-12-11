@@ -17,7 +17,7 @@ export default function Login() {
     email: "",
     password: "",
   });
-  const [isLoading, setIsLoading] = useState<Boolean>(true);
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
