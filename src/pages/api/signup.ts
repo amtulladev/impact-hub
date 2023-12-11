@@ -10,7 +10,7 @@ export default async function handler(
     return res.status(405).end();
   }
 
-  const { email, password } = req.body;
+  const { username, email, password } = req.body;
 
   try {
     const { db } = await connectToDatabase();
@@ -20,6 +20,7 @@ export default async function handler(
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const { insertedId } = await db.collection("users").insertOne({
+      username,
       email,
       password: hashedPassword,
       createdAt: new Date(),

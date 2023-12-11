@@ -40,6 +40,7 @@ export default function Signup() {
         setIsLoggedIn(true);
         setUserDetails({
           id: responseMessage.insertedId,
+          username: formData.username,
         });
         setFormData({
           username: "",
@@ -62,7 +63,7 @@ export default function Signup() {
     const { name, value } = event.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: value.trim(),
     }));
   };
 

@@ -1,4 +1,4 @@
-import { checkLogin } from "@/atom/user";
+import { checkLogin, user } from "@/atom/user";
 import Loader from "@/components/Loader";
 import { useSetAtom } from "jotai";
 import Link from "next/link";
@@ -12,6 +12,7 @@ interface LoginData {
 
 export default function Login() {
   const setIsLoggedIn = useSetAtom(checkLogin);
+  const setUserDetails = useSetAtom(user);
   const router = useRouter();
   const [formData, setFormData] = useState<LoginData>({
     email: "",
@@ -30,6 +31,7 @@ export default function Login() {
         },
         body: JSON.stringify(formData),
       });
+      const responseMessage = await response.json();
       if (response.ok) {
         setIsLoggedIn(true);
         setFormData({
@@ -37,9 +39,12 @@ export default function Login() {
           password: "",
         });
         router.push("/");
+        setUserDetails({
+          id: responseMessage._id,
+          username: responseMessage.username,
+        });
         setIsLoading(false);
       } else {
-        const responseMessage = await response.json();
         alert(JSON.stringify(responseMessage.error));
       }
     } catch (error) {
@@ -53,7 +58,7 @@ export default function Login() {
     const { name, value } = event.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: value.trim(),
     }));
   };
 

@@ -1,7 +1,14 @@
 import Link from "next/link";
 import Profile from "./icons/Profile";
+import { checkLogin, user } from "@/atom/user";
+import { Fragment } from "react";
+import { Menu, Transition } from "@headlessui/react";
+import { useAtom, useSetAtom } from "jotai";
 
 export default function Header() {
+  const [userDetails, setUserDetails] = useAtom(user);
+
+  const setLogout = useSetAtom(checkLogin);
   return (
     <header className="flex items-center justify-between border-b px-5 md:mx-auto md:max-w-[1200px]">
       <Link
@@ -10,7 +17,7 @@ export default function Header() {
       >
         ImpactHub
       </Link>
-      {/* <section>
+      <section>
         <a href="#" className="mr-3 hover:font-semibold focus:font-semibold">
           Home
         </a>
@@ -20,11 +27,40 @@ export default function Header() {
         <a href="#" className="hover:font-semibold focus:font-semibold">
           About
         </a>
-      </section> */}
-      <section className="flex items-center">
-        <p className="mr-1 md:mr-3">Name here</p>
-        <Profile />
       </section>
+      <Menu as="div" className="relative inline-block text-left">
+        <section className="flex items-center">
+          <p className="mr-1 md:mr-3">{userDetails.username}</p>
+          <Menu.Button className="px-3 py-2 hover:bg-gray-50">
+            <Profile />
+          </Menu.Button>
+        </section>
+
+        <Transition
+          as={Fragment}
+          enter="transition ease-out duration-100"
+          enterFrom="transform opacity-0 scale-95"
+          enterTo="transform opacity-100 scale-100"
+          leave="transition ease-in duration-75"
+          leaveFrom="transform opacity-100 scale-100"
+          leaveTo="transform opacity-0 scale-95"
+        >
+          <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Item>
+              <button
+                type="submit"
+                onClick={() => {
+                  setLogout(false);
+                  setUserDetails({ id: "", username: "" });
+                }}
+                className="block px-4 py-2 text-sm text-gray-900"
+              >
+                Sign out
+              </button>
+            </Menu.Item>
+          </Menu.Items>
+        </Transition>
+      </Menu>
     </header>
   );
 }
