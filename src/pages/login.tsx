@@ -1,6 +1,55 @@
+import { checkLogin } from "@/atom/user";
+import { useSetAtom } from "jotai";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FormEvent, useState } from "react";
+
+interface LoginData {
+  email: string;
+  password: string;
+}
 
 export default function Login() {
+  const setIsLoggedIn = useSetAtom(checkLogin);
+  const router = useRouter();
+  const [formData, setFormData] = useState<LoginData>({
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        setIsLoggedIn(true);
+        setFormData({
+          email: "",
+          password: "",
+        });
+        router.push("/");
+      } else {
+        const responseMessage = await response.json();
+        alert(JSON.stringify(responseMessage.error));
+      }
+    } catch (error) {
+      console.error("Error during post request:", error);
+    }
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
   return (
     <section>
       <div className="mx-auto flex h-screen flex-col items-center justify-center px-6 py-8 lg:py-0">
@@ -15,7 +64,7 @@ export default function Login() {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
               Sign in to your account
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label
                   htmlFor="email"
@@ -26,7 +75,8 @@ export default function Login() {
                 <input
                   type="email"
                   name="email"
-                  id="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 sm:text-sm"
                   placeholder="name@company.com"
                   required
@@ -42,7 +92,8 @@ export default function Login() {
                 <input
                   type="password"
                   name="password"
-                  id="password"
+                  value={formData.password}
+                  onChange={handleChange}
                   placeholder="••••••••"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 sm:text-sm"
                   required
