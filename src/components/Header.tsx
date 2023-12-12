@@ -17,7 +17,7 @@ export default function Header() {
       >
         ImpactHub
       </Link>
-      <section>
+      <section className="hidden sm:block">
         <a href="#" className="mr-3 hover:font-semibold focus:font-semibold">
           Home
         </a>
