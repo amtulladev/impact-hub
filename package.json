@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-react": "^6.2.0",
     "@headlessui/react": "^1.7.17",
     "bcrypt": "^5.1.1",
+    "ckeditor5-custom-build": "file:ckeditor5",
     "jotai": "^2.6.0",
     "mongodb": "^6.3.0",
     "next": "14.0.3",
