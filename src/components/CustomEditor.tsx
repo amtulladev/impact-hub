@@ -31,48 +31,47 @@ const editorConfiguration = {
 function CustomEditor() {
   const [title, setTitle] = useState<string>("");
   const userDetails = useAtomValue(user);
-  const [description, setDescription] = useState<string>(
-    "<h1>Write your blog post here</h1>",
-  );
+  const [description, setDescription] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("entereed");
+    if (description !== "") {
+      try {
+        setIsLoading(true);
+        const formData = {
+          title: title.trim(),
+          description: description.trim(),
+          userId: userDetails.id,
+        };
+        const response = await fetch("/api/blog/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+        const responseMessage = await response.json();
+        if (response.ok) {
+          console.log("fetch passed");
 
-    try {
-      setIsLoading(true);
-      const formData = {
-        title,
-        description,
-        userId: userDetails.id,
-      };
-      const response = await fetch("/api/blog/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const responseMessage = await response.json();
-      if (response.ok) {
-        console.log("fetch passed");
+          setTitle("");
+          setDescription("");
+          setIsLoading(false);
+          router.push("/");
+        } else {
+          console.log("fetch failed");
 
-        setTitle("");
-        setDescription("");
+          alert(JSON.stringify(responseMessage.error));
+        }
+      } catch (error) {
+        console.error("Error during post request:", error);
+      } finally {
         setIsLoading(false);
-        router.push("/");
-      } else {
-        console.log("fetch failed");
-
-        alert(JSON.stringify(responseMessage.error));
       }
-    } catch (error) {
-      console.error("Error during post request:", error);
-    } finally {
-      setIsLoading(false);
-    }
+    } else alert("Description Cannot Be Empty");
   };
 
   if (isLoading) {
