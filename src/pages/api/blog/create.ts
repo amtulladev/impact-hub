@@ -9,7 +9,7 @@ export default async function handler(
     return res.status(405).end();
   }
 
-  const { title, description, userId } = req.body;
+  const { title, description, userId, urlPath } = req.body;
 
   try {
     const { db } = await connectToDatabase();
@@ -21,6 +21,7 @@ export default async function handler(
 
     await db.collection("blogs").insertOne({
       userId,
+      urlPath,
       title,
       description,
       createdAt: new Date(),

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import FacebookIcon from "./icons/Facebook";
 import InstagramIcon from "./icons/Instagram";
 import TwitterIcon from "./icons/Twitter";
@@ -5,6 +6,7 @@ import TwitterIcon from "./icons/Twitter";
 interface BlogData {
   title: string;
   description: string;
+  urlPath?: string;
 }
 export default function CustomCard({ blogData }: { blogData: BlogData[] }) {
   return (
@@ -15,9 +17,25 @@ export default function CustomCard({ blogData }: { blogData: BlogData[] }) {
           className="mx-auto mb-10 max-w-2xl bg-white px-10 py-5"
         >
           <h2 className="text-2xl font-semibold">{value.title}</h2>
+          {value.urlPath ? (
+            <Image
+              src={value.urlPath}
+              alt="Blog Header Image"
+              width={450}
+              height={300}
+              className="mx-auto"
+            />
+          ) : null}
+
           <p
             className="my-6"
-            dangerouslySetInnerHTML={{ __html: value.description || "" }}
+            dangerouslySetInnerHTML={{
+              __html:
+                value?.description.replace(
+                  /<figure class="image">[^]*<\/figure>/gs,
+                  "",
+                ) || "",
+            }}
           />
           <a
             href="#"

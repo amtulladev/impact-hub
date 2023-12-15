@@ -38,7 +38,7 @@ export default function Home() {
         setBlogData(responseMessage?.blogs);
         setIsLoading(false);
       } else {
-        alert(JSON.stringify(responseMessage.error));
+        alert(JSON.stringify(responseMessage?.error));
       }
     } catch (error) {
       console.error("Error during post request:", error);

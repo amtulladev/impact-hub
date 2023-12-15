@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 
 function CustomEditor() {
   const [title, setTitle] = useState<string>("");
+  const [image, setImage] = useState<string>("");
   const userDetails = useAtomValue(user);
   const [description, setDescription] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -21,6 +22,7 @@ function CustomEditor() {
         const formData = {
           title: title.trim(),
           description: description.trim(),
+          urlPath: image,
           userId: userDetails.id,
         };
         const response = await fetch("/api/blog/create", {
@@ -91,6 +93,7 @@ function CustomEditor() {
           const data = await response.json();
           if (data.success) {
             const uploadedUrl = data.url;
+            setImage(uploadedUrl);
             return { default: uploadedUrl };
           } else {
             throw new Error(data.error || "Error uploading file");
