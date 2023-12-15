@@ -34,7 +34,6 @@ export default function Signup() {
         body: JSON.stringify(formData),
       });
       const responseMessage = await response.json();
-      console.log(responseMessage);
 
       if (response.ok) {
         setIsLoggedIn(true);
