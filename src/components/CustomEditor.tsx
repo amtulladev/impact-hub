@@ -6,28 +6,6 @@ import { useAtomValue } from "jotai";
 import { user } from "@/atom/user";
 import { useRouter } from "next/navigation";
 
-const editorConfiguration = {
-  toolbar: [
-    "heading",
-    "|",
-    "bold",
-    "italic",
-    "link",
-    "bulletedList",
-    "numberedList",
-    "|",
-    "outdent",
-    "indent",
-    "|",
-    "imageUpload",
-    "blockQuote",
-    "insertTable",
-    "mediaEmbed",
-    "undo",
-    "redo",
-  ],
-};
-
 function CustomEditor() {
   const [title, setTitle] = useState<string>("");
   const userDetails = useAtomValue(user);
@@ -37,7 +15,6 @@ function CustomEditor() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("entereed");
     if (description !== "") {
       try {
         setIsLoading(true);
@@ -55,15 +32,11 @@ function CustomEditor() {
         });
         const responseMessage = await response.json();
         if (response.ok) {
-          console.log("fetch passed");
-
           setTitle("");
           setDescription("");
           setIsLoading(false);
           router.push("/");
         } else {
-          console.log("fetch failed");
-
           alert(JSON.stringify(responseMessage.error));
         }
       } catch (error) {
@@ -76,6 +49,66 @@ function CustomEditor() {
 
   if (isLoading) {
     return <Loader />;
+  }
+
+  const editorConfiguration = {
+    toolbar: [
+      "heading",
+      "|",
+      "bold",
+      "italic",
+      "link",
+      "bulletedList",
+      "numberedList",
+      "|",
+      "outdent",
+      "indent",
+      "|",
+      "imageUpload",
+      "blockQuote",
+      "insertTable",
+      "mediaEmbed",
+      "undo",
+      "redo",
+    ],
+    extraPlugins: [uploadPlugin],
+  };
+
+  function uploadAdapter(loader: any) {
+    return {
+      async upload() {
+        try {
+          const file = await loader.file;
+
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const response = await fetch("/api/blog/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          const data = await response.json();
+          if (data.success) {
+            const uploadedUrl = data.url;
+            return { default: uploadedUrl };
+          } else {
+            throw new Error(data.error || "Error uploading file");
+          }
+        } catch (error) {
+          console.error("Error uploading file", error);
+          throw error;
+        }
+      },
+    };
+  }
+
+  function uploadPlugin(editor: any) {
+    editor.plugins.get("FileRepository").createUploadAdapter = (
+      loader: any,
+    ) => {
+      return uploadAdapter(loader);
+    };
   }
 
   return (
@@ -111,7 +144,6 @@ function CustomEditor() {
             onChange={(_event, editor) => {
               const data = editor.getData();
               setDescription(data);
-              console.log("taking data");
             }}
           />
         </section>
