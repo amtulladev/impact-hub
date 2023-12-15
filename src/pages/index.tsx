@@ -35,7 +35,7 @@ export default function Home() {
       });
       const responseMessage = await response.json();
       if (response.ok) {
-        setBlogData(responseMessage.blogs);
+        setBlogData(responseMessage?.blogs);
         setIsLoading(false);
       } else {
         alert(JSON.stringify(responseMessage.error));
