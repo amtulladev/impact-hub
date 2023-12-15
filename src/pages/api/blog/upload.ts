@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { IncomingForm } from "formidable";
 import fs from "fs";
+import sharp from "sharp";
 
 export const config = {
   api: {
@@ -33,7 +34,9 @@ export default async function handler(
       const oldPath = files.file[0].filepath;
       const newPath = `${uploadDir}/${files.file[0].originalFilename}`;
 
-      fs.renameSync(oldPath, newPath);
+      await sharp(oldPath).resize({ width: 450 }).toFile(newPath);
+
+      fs.unlinkSync(oldPath);
 
       const fileUrl = `/uploads/${files.file[0].originalFilename}`;
       return res.status(200).json({ success: true, url: fileUrl });
