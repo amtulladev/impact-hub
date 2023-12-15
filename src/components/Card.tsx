@@ -15,7 +15,6 @@ export default function CustomCard({ blogData }: { blogData: BlogData[] }) {
           className="mx-auto mb-10 max-w-2xl bg-white px-10 py-5"
         >
           <h2 className="text-2xl font-semibold">{value.title}</h2>
-          <img src="#" alt="image here" width={300} height={300} />
           <p
             className="my-6"
             dangerouslySetInnerHTML={{ __html: value.description || "" }}
