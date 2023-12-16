@@ -7,6 +7,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import { useAtomValue } from "jotai";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 interface BlogData {
   title: string;
@@ -38,10 +39,10 @@ export default function Home() {
         setBlogData(responseMessage?.blogs);
         setIsLoading(false);
       } else {
-        alert(JSON.stringify(responseMessage?.error));
+        toast.error(responseMessage.error);
       }
     } catch (error) {
-      console.error("Error during post request:", error);
+      toast.error(`Error during post request: ${error}`);
     } finally {
       setIsLoading(false);
     }

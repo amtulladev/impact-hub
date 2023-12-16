@@ -4,6 +4,7 @@ import { useSetAtom } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import toast from "react-hot-toast";
 
 interface LoginData {
   email: string;
@@ -44,11 +45,12 @@ export default function Login() {
           username: responseMessage.username,
         });
         setIsLoading(false);
+        toast.success("Logged In Successfully");
       } else {
-        alert(JSON.stringify(responseMessage.error));
+        toast.error(responseMessage.error);
       }
     } catch (error) {
-      console.error("Error during post request:", error);
+      toast.error(`Error during post request:" ${error}`);
     } finally {
       setIsLoading(false);
     }
