@@ -5,6 +5,7 @@ import Loader from "./Loader";
 import { useAtomValue } from "jotai";
 import { user } from "@/atom/user";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 function CustomEditor() {
   const [title, setTitle] = useState<string>("");
@@ -34,19 +35,20 @@ function CustomEditor() {
         });
         const responseMessage = await response.json();
         if (response.ok) {
+          toast.success("Data Saved Successfully");
           setTitle("");
           setDescription("");
           setIsLoading(false);
           router.push("/");
         } else {
-          alert(JSON.stringify(responseMessage.error));
+          toast.error(responseMessage.error);
         }
       } catch (error) {
-        console.error("Error during post request:", error);
+        toast.error(`Error during post request: ${error}`);
       } finally {
         setIsLoading(false);
       }
-    } else alert("Description Cannot Be Empty");
+    } else toast.error("Description Cannot Be Empty");
   };
 
   if (isLoading) {
@@ -99,7 +101,7 @@ function CustomEditor() {
             throw new Error(data.error || "Error uploading file");
           }
         } catch (error) {
-          console.error("Error uploading file", error);
+          toast.error(`Error uploading file: ${error}`);
           throw error;
         }
       },
