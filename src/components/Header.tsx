@@ -4,6 +4,7 @@ import { checkLogin, user } from "@/atom/user";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { useAtom, useSetAtom } from "jotai";
+import toast from "react-hot-toast";
 
 export default function Header() {
   const [userDetails, setUserDetails] = useAtom(user);
@@ -52,6 +53,7 @@ export default function Header() {
                 onClick={() => {
                   setLogout(false);
                   setUserDetails({ id: "", username: "" });
+                  toast.success("Logged Out Successfully");
                 }}
                 className="block px-4 py-2 text-sm text-gray-900"
               >
