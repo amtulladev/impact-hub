@@ -1,5 +1,6 @@
 import Information from "@/components/Info";
 import Layout from "@/components/Layout";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import dynamic from "next/dynamic";
 
 const CustomEditor = dynamic(
@@ -12,10 +13,12 @@ const CustomEditor = dynamic(
 export default function BlogPage() {
   return (
     <>
-      <Layout>
-        <Information />
-        <CustomEditor />
-      </Layout>
+      <ProtectedRoute>
+        <Layout>
+          <Information />
+          <CustomEditor />
+        </Layout>
+      </ProtectedRoute>
     </>
   );
 }

@@ -1,5 +1,5 @@
-import { checkLogin } from "@/atom/user";
-import { useAtom } from "jotai";
+import { checkLoginAtom } from "@/atom/user";
+import { useAtomValue } from "jotai";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -8,7 +8,7 @@ export default function ProtectedRoute({
 }: {
   children: React.ReactNode;
 }) {
-  const [isAuthenticated] = useAtom(checkLogin);
+  const isAuthenticated = useAtomValue(checkLoginAtom);
   const router = useRouter();
 
   useEffect(() => {

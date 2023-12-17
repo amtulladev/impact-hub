@@ -1,15 +1,16 @@
 import Link from "next/link";
 import Profile from "./icons/Profile";
-import { checkLogin, user } from "@/atom/user";
+import { checkLoginAtom, userAtom } from "@/atom/user";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { useAtom, useSetAtom } from "jotai";
 import toast from "react-hot-toast";
+import { RESET } from "jotai/utils";
 
 export default function Header() {
-  const [userDetails, setUserDetails] = useAtom(user);
+  const [userDetails, setUserDetails] = useAtom(userAtom);
 
-  const setLogout = useSetAtom(checkLogin);
+  const setLogout = useSetAtom(checkLoginAtom);
   return (
     <header className="flex items-center justify-between border-b px-5 md:mx-auto md:max-w-[1200px]">
       <Link
@@ -31,6 +32,7 @@ export default function Header() {
       </section>
       <Menu as="div" className="relative inline-block text-left">
         <section className="flex items-center">
+          {/* @ts-ignore */}
           <p className="mr-1 md:mr-3">{userDetails.username}</p>
           <Menu.Button className="px-3 py-2 hover:bg-gray-50">
             <Profile />
@@ -51,8 +53,8 @@ export default function Header() {
               <button
                 type="submit"
                 onClick={() => {
-                  setLogout(false);
-                  setUserDetails({ id: "", username: "" });
+                  setLogout(RESET);
+                  setUserDetails(RESET);
                   toast.success("Logged Out Successfully");
                 }}
                 className="block px-4 py-2 text-sm text-gray-900"
