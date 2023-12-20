@@ -93,6 +93,7 @@ export default function Login() {
                 <input
                   type="email"
                   name="email"
+                  data-emailId="email"
                   value={formData.email}
                   onChange={handleChange}
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 sm:text-sm"
@@ -110,6 +111,7 @@ export default function Login() {
                 <input
                   type="password"
                   name="password"
+                  data-passwordId="password"
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="••••••••"
