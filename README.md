@@ -31,16 +31,22 @@ Install dependencies
 If you get any error in `CustomEditor.tsx` file on line `import Editor from "ckeditor5-custom-build";` Run the following code
 
 ```bash
-npm install file:./ckeditor5
+pnpm install file:./ckeditor5
 ```
 
 Running the application
 
 ```bash
-  npm run dev
+  pnpm run dev
 ```
 
 Visit http://localhost:3000 in your browser.
+
+Running the cypress test
+
+```bash
+  pnpm run cypress:open
+```
 
 ## Environment Variables
 
