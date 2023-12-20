@@ -1,4 +1,4 @@
-import { checkLogin, user } from "@/atom/user";
+import { checkLoginAtom, userAtom } from "@/atom/user";
 import Loader from "@/components/Loader";
 import { useSetAtom } from "jotai";
 import Link from "next/link";
@@ -12,8 +12,8 @@ interface LoginData {
 }
 
 export default function Login() {
-  const setIsLoggedIn = useSetAtom(checkLogin);
-  const setUserDetails = useSetAtom(user);
+  const setIsLoggedIn = useSetAtom(checkLoginAtom);
+  const setUserDetails = useSetAtom(userAtom);
   const router = useRouter();
   const [formData, setFormData] = useState<LoginData>({
     email: "",

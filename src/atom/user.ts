@@ -1,13 +1,16 @@
-import { atom } from "jotai";
+import { atomWithStorage, createJSONStorage } from "jotai/utils";
+
+const storage = createJSONStorage(() => sessionStorage);
 
 interface UserData {
   id: string;
   username: string;
 }
 
-export const user = atom<UserData>({
+const initialValue: UserData = {
   id: "",
   username: "",
-});
+};
+export const userAtom = atomWithStorage("userDetails", initialValue, storage);
 
-export const checkLogin = atom<Boolean>(false);
+export const checkLoginAtom = atomWithStorage("auth", false, storage);

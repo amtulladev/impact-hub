@@ -3,14 +3,14 @@ import Editor from "ckeditor5-custom-build";
 import { FormEvent, useState } from "react";
 import Loader from "./Loader";
 import { useAtomValue } from "jotai";
-import { user } from "@/atom/user";
+import { userAtom } from "@/atom/user";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 function CustomEditor() {
   const [title, setTitle] = useState<string>("");
   const [image, setImage] = useState<string>("");
-  const userDetails = useAtomValue(user);
+  const userDetails = useAtomValue(userAtom);
   const [description, setDescription] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -24,6 +24,7 @@ function CustomEditor() {
           title: title.trim(),
           description: description.trim(),
           urlPath: image,
+          //@ts-ignore
           userId: userDetails.id,
         };
         const response = await fetch("/api/blog/create", {

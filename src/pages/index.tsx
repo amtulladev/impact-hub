@@ -1,4 +1,4 @@
-import { user } from "@/atom/user";
+import { userAtom } from "@/atom/user";
 import About from "@/components/About";
 import CustomCard from "@/components/Card";
 import Layout from "@/components/Layout";
@@ -15,7 +15,7 @@ interface BlogData {
 }
 
 export default function Home() {
-  const userDetails = useAtomValue(user);
+  const userDetails = useAtomValue(userAtom);
   const [blogData, setBlogData] = useState<BlogData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -24,6 +24,7 @@ export default function Home() {
       setIsLoading(true);
 
       const data = {
+        // @ts-ignore
         userId: userDetails.id,
       };
 
