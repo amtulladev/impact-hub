@@ -127,6 +127,7 @@ function CustomEditor() {
           <input
             type="text"
             name="title"
+            data-titleId="title"
             value={title}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               setTitle(event.target.value);
@@ -144,6 +145,7 @@ function CustomEditor() {
             Description
           </label>
           <CKEditor
+            data-descriptionId="description"
             editor={Editor}
             config={editorConfiguration}
             data={description}
