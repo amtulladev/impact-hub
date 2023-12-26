@@ -73,7 +73,11 @@ function Blog({ blogData }: { blogData: BlogData[] }) {
       >
         Create blog
       </Link>
-      {blogData?.length !== 0 ? <CustomList blogData={blogData} /> : null}
+      {Array.isArray(blogData) ? (
+        blogData?.length !== 0 ? (
+          <CustomList blogData={blogData} />
+        ) : null
+      ) : null}
     </>
   );
 }
