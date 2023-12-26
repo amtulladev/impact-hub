@@ -1,7 +1,7 @@
 import { userAtom } from "@/atom/user";
 import About from "@/components/About";
-import CustomCard from "@/components/Card";
 import Layout from "@/components/Layout";
+import CustomList from "@/components/List";
 import Loader from "@/components/Loader";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useQuery } from "@tanstack/react-query";
@@ -9,8 +9,11 @@ import { useAtomValue } from "jotai";
 import Link from "next/link";
 
 interface BlogData {
+  _id: string;
   title: string;
   description: string;
+  urlPath?: string;
+  createdAt: string;
 }
 
 export default function Home() {
@@ -66,11 +69,11 @@ function Blog({ blogData }: { blogData: BlogData[] }) {
     <>
       <Link
         href="/create"
-        className="float-right mr-10 bg-secondary px-5 py-3 font-semibold text-white"
+        className="float-right mr-5 bg-secondary px-5 py-3 font-semibold text-white md:mr-10"
       >
         Create blog
       </Link>
-      {blogData?.length !== 0 ? <CustomCard blogData={blogData} /> : null}
+      {blogData?.length !== 0 ? <CustomList blogData={blogData} /> : null}
     </>
   );
 }
