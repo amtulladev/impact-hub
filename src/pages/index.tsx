@@ -4,10 +4,9 @@ import CustomCard from "@/components/Card";
 import Layout from "@/components/Layout";
 import Loader from "@/components/Loader";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 
 interface BlogData {
   title: string;
@@ -16,52 +15,34 @@ interface BlogData {
 
 export default function Home() {
   const userDetails = useAtomValue(userAtom);
-  const [blogData, setBlogData] = useState<BlogData[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  async function FetchBlogs() {
-    try {
-      setIsLoading(true);
-
-      const data = {
-        // @ts-ignore
-        userId: userDetails.id,
-      };
-
-      const response = await fetch("/api/blog/get-all", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      const responseMessage = await response.json();
-      if (response.ok) {
-        setBlogData(responseMessage?.blogs);
-        setIsLoading(false);
-      } else {
-        toast.error(responseMessage.error);
-      }
-    } catch (error) {
-      toast.error(`Error during post request: ${error}`);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    FetchBlogs();
-  }, []);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["blogData"],
+    queryFn: () =>
+      //@ts-ignore
+      fetch(`/api/blog/get-all?userId=${userDetails.id}`).then((res) =>
+        res.json(),
+      ),
+  });
 
   if (isLoading) {
     return <Loader />;
+  }
+
+  if (error) {
+    return (
+      <>
+        <h1 className="text-center">Some error occurred</h1>
+        <p className="text-center">{error.message}</p>
+      </>
+    );
   }
 
   return (
     <ProtectedRoute>
       <Layout>
         <section className="bg-secondary-bg py-5">
-          {blogData?.length === 0 ? (
+          {data.blogs?.length === 0 ? (
             <section className="flex min-h-[70vh] items-center justify-center">
               <Link
                 href="/blog"
@@ -71,7 +52,7 @@ export default function Home() {
               </Link>
             </section>
           ) : (
-            <Blog blogData={blogData} />
+            <Blog blogData={data.blogs} />
           )}
         </section>
         <About />
