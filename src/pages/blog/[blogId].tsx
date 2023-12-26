@@ -33,9 +33,32 @@ export default function BlogPage() {
   }
 
   return (
-    <section className="flex min-h-screen items-center justify-center bg-secondary py-20">
+    <section className="min-h-screen bg-gray-200 pb-10">
+      <Link
+        href="/"
+        className="ml-3 mt-10 inline-flex items-center rounded-lg border-[1px] bg-white px-10 py-3 hover:border-black"
+      >
+        <svg
+          width="15px"
+          height="15px"
+          viewBox="0 0 24 24"
+          strokeWidth="2"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          color="#000000"
+          className="mr-1"
+        >
+          <path
+            d="M21 12L3 12M3 12L11.5 3.5M3 12L11.5 20.5"
+            stroke="#000000"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          ></path>
+        </svg>
+        Back
+      </Link>
       {Object.keys(data.blogs).length !== 0 ? (
-        <section className="mx-5 bg-white px-5 py-5 md:px-10">
+        <section className="mx-5 mx-auto mt-20 max-w-[850px] bg-white px-5 py-10 shadow-md md:px-10">
           <h2 className="text-2xl font-semibold">{data.blogs.title}</h2>
           {data.blogs.urlPath ? (
             <Image
@@ -73,7 +96,7 @@ export default function BlogPage() {
           </section>
           <section className="my-5 border-b"></section>
           <h2 className="mb-3 text-2xl">Share this Fundraiser:</h2>
-          <section className="my-6 flex flex-col flex-wrap justify-between space-y-5 md:flex-row md:space-y-0">
+          <section className="flex flex-col flex-wrap justify-evenly space-y-5 py-6 md:flex-row md:space-y-0">
             <a
               href="#"
               className="inline-flex justify-center rounded-md border border-transparent bg-[#3B5998] px-4 py-3 font-semibold text-white"
