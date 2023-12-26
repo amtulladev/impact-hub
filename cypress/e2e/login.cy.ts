@@ -1,6 +1,6 @@
 describe("Home Page", () => {
   it("prevents access to protected pages without login", () => {
-    cy.visit("/blog");
+    cy.visit("/create");
 
     cy.url().should("include", "/login");
     cy.contains("Sign up").should("exist");
