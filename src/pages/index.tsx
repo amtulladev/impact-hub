@@ -45,7 +45,7 @@ export default function Home() {
           {data.blogs?.length === 0 ? (
             <section className="flex min-h-[70vh] items-center justify-center">
               <Link
-                href="/blog"
+                href="/create"
                 className="bg-secondary px-5 py-3 font-semibold text-white"
               >
                 Create blog
@@ -65,7 +65,7 @@ function Blog({ blogData }: { blogData: BlogData[] }) {
   return (
     <>
       <Link
-        href="/blog"
+        href="/create"
         className="float-right mr-10 bg-secondary px-5 py-3 font-semibold text-white"
       >
         Create blog
