@@ -14,6 +14,10 @@ export default async function handler(
   try {
     const { db } = await connectToDatabase();
 
+    if (!userId) {
+      return res.status(400).json({ error: "Missing userId parameter" });
+    }
+
     const blogs = await db.collection("blogs").find({ userId }).toArray();
 
     return res.status(200).json({ message: "Data received", blogs });
