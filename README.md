@@ -90,3 +90,7 @@ Dev-Dependency
 
 - prettier-plugin-tailwindcss - automatically order tailwind class names
 - typescript
+
+## Architecture
+
+![Screenshot](dataModel.png)
