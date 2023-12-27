@@ -68,8 +68,8 @@ export default function Signup() {
     }));
   };
 
-  if (isLoading === true) {
-    return <Loader />;
+  if (isLoading) {
+    return <Loader className="h-screen" />;
   }
 
   return (

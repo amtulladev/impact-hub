@@ -20,7 +20,7 @@ export default function BlogPage() {
   });
 
   if (isPending) {
-    return <Loader />;
+    return <Loader className="h-screen" />;
   }
 
   if (error) {
@@ -58,7 +58,7 @@ export default function BlogPage() {
         Back
       </Link>
       {isFetching ? (
-        "Loading...."
+        <Loader className="h-screen" />
       ) : Object.keys(data.blogs).length !== 0 ? (
         <section className="mx-5 mx-auto mt-20 max-w-[850px] bg-white px-5 py-10 shadow-md md:px-10">
           <h2 className="text-2xl font-semibold">{data.blogs.title}</h2>

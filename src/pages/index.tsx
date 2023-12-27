@@ -27,9 +27,8 @@ export default function Home() {
         res.json(),
       ),
   });
-
   if (isPending) {
-    return <Loader />;
+    return <Loader className="h-screen" />;
   }
 
   if (error) {
@@ -55,7 +54,7 @@ export default function Home() {
               </Link>
             </section>
           ) : isFetching ? (
-            "Loading..."
+            <Loader />
           ) : (
             <Blog blogData={data.blogs} />
           )}
