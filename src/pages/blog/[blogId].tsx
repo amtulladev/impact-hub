@@ -12,14 +12,14 @@ export default function BlogPage() {
 
   const id = router.query.blogId;
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isFetching, isPending, error } = useQuery({
     queryKey: ["blogData"],
     queryFn: () =>
       //@ts-ignore
       fetch(`/api/blog/get?blogId=${id}`).then((res) => res.json()),
   });
 
-  if (isLoading) {
+  if (isPending) {
     return <Loader />;
   }
 
@@ -57,7 +57,9 @@ export default function BlogPage() {
         </svg>
         Back
       </Link>
-      {Object.keys(data.blogs).length !== 0 ? (
+      {isFetching ? (
+        "Loading...."
+      ) : Object.keys(data.blogs).length !== 0 ? (
         <section className="mx-5 mx-auto mt-20 max-w-[850px] bg-white px-5 py-10 shadow-md md:px-10">
           <h2 className="text-2xl font-semibold">{data.blogs.title}</h2>
           {data.blogs.urlPath ? (
