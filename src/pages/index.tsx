@@ -19,7 +19,7 @@ interface BlogData {
 export default function Home() {
   const userDetails = useAtomValue(userAtom);
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isPending, isFetching, error } = useQuery({
     queryKey: ["blogData"],
     queryFn: () =>
       //@ts-ignore
@@ -27,9 +27,8 @@ export default function Home() {
         res.json(),
       ),
   });
-
-  if (isLoading) {
-    return <Loader />;
+  if (isPending) {
+    return <Loader className="h-screen" />;
   }
 
   if (error) {
@@ -54,6 +53,8 @@ export default function Home() {
                 Create blog
               </Link>
             </section>
+          ) : isFetching ? (
+            <Loader />
           ) : (
             <Blog blogData={data.blogs} />
           )}
